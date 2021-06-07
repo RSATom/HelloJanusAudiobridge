@@ -5,24 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Janus WebRTC Server: Audio Bridge Demo</title>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.4.0/adapter.min.js" ></script>
+
+<script src="cordova.js"></script>
+
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js" ></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/spin.js/2.3.2/spin.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.2/bootstrap-slider.min.js"></script>
-<script type="text/javascript" src="janus.js" ></script>
-<script type="text/javascript" src="audiobridgetest.js"></script>
-<script>
-	$(function() {
-		$(".navbar-static-top").load("navbar.html", function() {
-			$(".navbar-static-top li.dropdown").addClass("active");
-			$(".navbar-static-top a[href='audiobridgetest.html']").parent().addClass("active");
-		});
-		$(".footer").load("footer.html");
+
+<script type="text/javascript">
+	function loadScript(scriptUrl) {
+		  return new Promise(function (resolve, reject) {
+			    var script = document.createElement("script");
+			    script.type = "text/javascript";
+			    script.src = scriptUrl;
+			    script.async = false;
+			    document.getElementsByTagName("head")[0].appendChild(script);
+			    script.onload = function () {
+				      console.log('loadScript.loaded', script.src);
+				      resolve();
+			    };
+		  })
+	}
+
+	document.addEventListener('deviceready', async function () {
+		cordova.plugins.iosrtc.registerGlobals();
+		await loadScript("https://cdnjs.cloudflare.com/ajax/libs/webrtc-adapter/7.4.0/adapter.min.js")
+		await loadScript("janus.js")
+		await loadScript("audiobridgetest.js")
 	});
 </script>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/cerulean/bootstrap.min.css" type="text/css"/>
 <link rel="stylesheet" href="css/demo.css" type="text/css"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css"/>
